@@ -8,7 +8,7 @@
 import Foundation
 
 enum NetworkConstants: String {
-    case ApiKey = "KEY"
+    case ApiKey = "bca89ae3-7648-4682-a0dd-e8dfc5d8cef8"
 }
 
 class NetworkDataFetch {
@@ -33,6 +33,23 @@ class NetworkDataFetch {
         }
     }
     
-    
+    func fetchScheduleBetweenStations(urlString: String, response: @escaping(ScheduleBetweenStations?, Error?) -> Void) {
+        NetworkRequest.shared.requestData(urlString: urlString) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    print("data = \(data)")
+                    let schedule = try JSONDecoder().decode(ScheduleBetweenStations.self, from: data)
+                    print("моя точка \(schedule)")
+                    response(schedule, nil)
+                } catch let jsonError {
+                    print("Failed to decode JSON Schedule", jsonError)
+                }
+            case .failure(let error):
+                print("Error received requesting data: \(error.localizedDescription)")
+                response(nil, error)
+            }
+        }
+    }
     
 }

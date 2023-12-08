@@ -18,6 +18,9 @@
 		91526E972B21232A00922DC5 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91526E962B21232A00922DC5 /* NetworkRequest.swift */; };
 		91526E992B21233B00922DC5 /* NetworkDataFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91526E982B21233B00922DC5 /* NetworkDataFetch.swift */; };
 		915B1AE92B22187F00980B83 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B1AE82B22187F00980B83 /* ScheduleViewController.swift */; };
+		915B1AEB2B22216200980B83 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B1AEA2B22216200980B83 /* ScheduleModel.swift */; };
+		915B1AEE2B22555400980B83 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B1AED2B22555400980B83 /* ScheduleCell.swift */; };
+		915B1AF02B22574200980B83 /* ScheduleCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B1AEF2B22574200980B83 /* ScheduleCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		91526E962B21232A00922DC5 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		91526E982B21233B00922DC5 /* NetworkDataFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetch.swift; sourceTree = "<group>"; };
 		915B1AE82B22187F00980B83 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+		915B1AEA2B22216200980B83 /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
+		915B1AED2B22555400980B83 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
+		915B1AEF2B22574200980B83 /* ScheduleCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +72,7 @@
 		91526E772B20CB0400922DC5 /* yandex-schedule */ = {
 			isa = PBXGroup;
 			children = (
+				915B1AEC2B22216800980B83 /* Model */,
 				91526E782B20CB0400922DC5 /* AppDelegate.swift */,
 				91526E7A2B20CB0400922DC5 /* SceneDelegate.swift */,
 				91526E7C2B20CB0400922DC5 /* ViewController.swift */,
@@ -74,7 +81,8 @@
 				915B1AE82B22187F00980B83 /* ScheduleViewController.swift */,
 				91526E952B21228B00922DC5 /* Network */,
 				91526E8C2B20CBE200922DC5 /* Resources */,
-				91526E932B21198600922DC5 /* StationModel.swift */,
+				915B1AED2B22555400980B83 /* ScheduleCell.swift */,
+				915B1AEF2B22574200980B83 /* ScheduleCellViewModel.swift */,
 			);
 			path = "yandex-schedule";
 			sourceTree = "<group>";
@@ -96,6 +104,15 @@
 				91526E982B21233B00922DC5 /* NetworkDataFetch.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		915B1AEC2B22216800980B83 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				91526E932B21198600922DC5 /* StationModel.swift */,
+				915B1AEA2B22216200980B83 /* ScheduleModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,12 +187,15 @@
 			files = (
 				91526E972B21232A00922DC5 /* NetworkRequest.swift in Sources */,
 				91526E942B21198600922DC5 /* StationModel.swift in Sources */,
+				915B1AEB2B22216200980B83 /* ScheduleModel.swift in Sources */,
 				91526E922B2103FE00922DC5 /* ToViewController.swift in Sources */,
 				915B1AE92B22187F00980B83 /* ScheduleViewController.swift in Sources */,
 				91526E7D2B20CB0400922DC5 /* ViewController.swift in Sources */,
 				91526E792B20CB0400922DC5 /* AppDelegate.swift in Sources */,
+				915B1AF02B22574200980B83 /* ScheduleCellViewModel.swift in Sources */,
 				91526E8E2B20E23D00922DC5 /* FromViewController.swift in Sources */,
 				91526E7B2B20CB0400922DC5 /* SceneDelegate.swift in Sources */,
+				915B1AEE2B22555400980B83 /* ScheduleCell.swift in Sources */,
 				91526E992B21233B00922DC5 /* NetworkDataFetch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

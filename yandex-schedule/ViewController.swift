@@ -9,8 +9,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var FromPointKey = ""
-    var ToPointKey = ""
+    var fromPointKey = ""
+    var toPointKey = ""
     var FromlabelText = "From"
     var TolabelText = "To"
     private var FindButton = UIButton()
@@ -24,14 +24,13 @@ class ViewController: UIViewController {
         createUI()
         createButton()
         
-       
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("from = \(FromlabelText)")
-        print("from KEY = \(FromPointKey)")
+        print("from KEY = \(fromPointKey)")
         print("to = \(TolabelText)")
-        print("to KEY = \(ToPointKey)")
+        print("to KEY = \(toPointKey)")
         createUI()
     }
     
@@ -69,6 +68,10 @@ class ViewController: UIViewController {
     
     @objc func FindButtonPressed() {
         let ScheduleVC = ScheduleViewController()
+        ScheduleVC.fromTitle = FromlabelText
+        ScheduleVC.toTitle = TolabelText
+        ScheduleVC.fromPointKey = fromPointKey
+        ScheduleVC.toPointKey = toPointKey
         navigationController?.pushViewController(ScheduleVC, animated: true)
     }
     

@@ -100,8 +100,8 @@ extension FromViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mainVC = self.navigationController?.viewControllers[0] as? ViewController
-        mainVC?.FromlabelText = station[indexPath.row].fullTitle
-        mainVC?.FromPointKey = station[indexPath.row].pointKey
+        mainVC?.FromlabelText = station[indexPath.row].title
+        mainVC?.fromPointKey = station[indexPath.row].pointKey
         navigationController?.popViewController(animated: true)
     }
 }
