@@ -21,6 +21,7 @@ class ScheduleCell: UITableViewCell {
     private let ToLabel = UILabel()
     private let carrierNameLabel = UILabel()
     private let vehicleLabel = UILabel()
+    private let threadNumber = UILabel()
     private var fromToStackView = UIStackView()
     
     private var departureDayLabel = UILabel()
@@ -56,10 +57,13 @@ class ScheduleCell: UITableViewCell {
         carrierNameLabel.font = .systemFont(ofSize: 14)
         carrierNameLabel.textColor = .darkGray
         
+        threadNumber.font = .systemFont(ofSize: 14)
+        threadNumber.textColor = .darkGray
+        
         vehicleLabel.font = .systemFont(ofSize: 14)
         vehicleLabel.textColor = .darkGray
         
-        fromToStackView = UIStackView(arrangedSubviews: [FromLabel, ToLabel, carrierNameLabel, vehicleLabel])
+        fromToStackView = UIStackView(arrangedSubviews: [FromLabel, ToLabel, carrierNameLabel, threadNumber, vehicleLabel])
         fromToStackView.axis = .vertical
         fromToStackView.spacing = 2
         fromToStackView.backgroundColor = .blue
@@ -161,6 +165,17 @@ class ScheduleCell: UITableViewCell {
 //        case train: transportTypeImageView.backgroundColor = .purple
 //        }
         
+        print("transport = \(viewModel.transportType)")
+        switch viewModel.transportType {
+        case "plane": transportTypeImageView.image = UIImage(systemName: "airplane")
+        case "train": transportTypeImageView.image = UIImage(systemName: "train.side.front.car")
+        case "suburban": transportTypeImageView.image = UIImage(systemName: "tram.fill")
+        case "bus": transportTypeImageView.image = UIImage(systemName: "bus.fill")
+        default:
+            print("сработал дефолт")
+        }
+        
+        threadNumber.text = viewModel.threadNumber
     }
     
     

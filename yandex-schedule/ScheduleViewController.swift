@@ -48,7 +48,7 @@ class ScheduleViewController: UIViewController {
 //        let form = URLQueryItem(name: "format", value: "json")
         let from = URLQueryItem(name: "from", value: fromPointKey)
         let to = URLQueryItem(name: "to", value: toPointKey)
-        let dateValue = URLQueryItem(name: "date", value: "2023-12-07")
+        let dateValue = URLQueryItem(name: "date", value: "2023-12-08")
         let limit = URLQueryItem(name: "limit", value: "10")
         
         urlComponents.queryItems = [apiKey, from, to, dateValue, limit]
@@ -57,14 +57,22 @@ class ScheduleViewController: UIViewController {
     }
     
     private func fetchSchedule(_ urlString: String) {
-        let urlString = "https://api.rasp.yandex.net/v3.0/search/?apikey=bca89ae3-7648-4682-a0dd-e8dfc5d8cef8&format=json&from=c213&to=c2&lang=ru_RU&page=1&date=2023-12-07&&limit=8"
+//        let urlString = "https://api.rasp.yandex.net/v3.0/search/?apikey=bca89ae3-7648-4682-a0dd-e8dfc5d8cef8&format=json&from=c213&to=c2&lang=ru_RU&date=2023-12-07&limit=8"
         
         NetworkDataFetch.shared.fetchScheduleBetweenStations(urlString: urlString) { schedule, error in
             if error == nil {
                 guard let schedule = schedule else { return }
                 
-                if schedule.segments != [] {
-                    self.localSchedule = schedule.segments
+//                if schedule.segments != [] {
+//                    self.localSchedule = schedule.segments
+//                    print(self.localSchedule)
+//                    self.tableView.reloadData()
+//                } else {
+//                    print("schedule not found.")
+//                }
+                
+                if schedule.segments != nil {
+                    self.localSchedule = schedule.segments!
                     print(self.localSchedule)
                     self.tableView.reloadData()
                 } else {
