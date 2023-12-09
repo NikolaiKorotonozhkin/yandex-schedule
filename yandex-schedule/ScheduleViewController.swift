@@ -13,6 +13,8 @@ class ScheduleViewController: UIViewController {
     var toPointKey = ""
     var fromTitle = "Откуда"
     var toTitle = "Куда"
+    var transportTypeTitle = ""
+    var tripDate = "2023-12-08T01:00:00+03:00"
     
     var localSchedule = [Segment]()
     
@@ -34,24 +36,25 @@ class ScheduleViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        let url = createURL(fromPointKey, toPointKey)
+        let url = createURL(fromPointKey, toPointKey, transportTypeTitle, tripDate)
         let urlStr = url.absoluteString
         print(urlStr)
         fetchSchedule(urlStr)
         
     }
     
-    func createURL(_ fromPointKey: String, _ toPointKey: String) -> URL {
+    func createURL(_ fromPointKey: String, _ toPointKey: String, _ transport: String, _ date: String) -> URL {
         var urlComponents = URLComponents(string: "https://api.rasp.yandex.net/v3.0/search/")!
         
         let apiKey = URLQueryItem(name: "apikey", value: NetworkConstants.ApiKey.rawValue)
 //        let form = URLQueryItem(name: "format", value: "json")
         let from = URLQueryItem(name: "from", value: fromPointKey)
         let to = URLQueryItem(name: "to", value: toPointKey)
-        let dateValue = URLQueryItem(name: "date", value: "2023-12-08")
+        let transportTypes = URLQueryItem(name: "transport_types", value: transport)
+        let dateValue = URLQueryItem(name: "date", value: date)
         let limit = URLQueryItem(name: "limit", value: "10")
         
-        urlComponents.queryItems = [apiKey, from, to, dateValue, limit]
+        urlComponents.queryItems = [apiKey, from, to, transportTypes, dateValue, limit]
         
         return urlComponents.url!
     }

@@ -21,6 +21,7 @@
 		915B1AEB2B22216200980B83 /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B1AEA2B22216200980B83 /* ScheduleModel.swift */; };
 		915B1AEE2B22555400980B83 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B1AED2B22555400980B83 /* ScheduleCell.swift */; };
 		915B1AF02B22574200980B83 /* ScheduleCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915B1AEF2B22574200980B83 /* ScheduleCellViewModel.swift */; };
+		915ED47A2B24A18300C5505C /* AlertDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 915ED4792B24A18300C5505C /* AlertDate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		915B1AEA2B22216200980B83 /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
 		915B1AED2B22555400980B83 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
 		915B1AEF2B22574200980B83 /* ScheduleCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellViewModel.swift; sourceTree = "<group>"; };
+		915ED4792B24A18300C5505C /* AlertDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				915B1AEC2B22216800980B83 /* Model */,
 				91526E782B20CB0400922DC5 /* AppDelegate.swift */,
 				91526E7A2B20CB0400922DC5 /* SceneDelegate.swift */,
+				915ED4792B24A18300C5505C /* AlertDate.swift */,
 				91526E7C2B20CB0400922DC5 /* ViewController.swift */,
 				91526E8D2B20E23D00922DC5 /* FromViewController.swift */,
 				91526E912B2103FE00922DC5 /* ToViewController.swift */,
@@ -192,6 +195,7 @@
 				915B1AE92B22187F00980B83 /* ScheduleViewController.swift in Sources */,
 				91526E7D2B20CB0400922DC5 /* ViewController.swift in Sources */,
 				91526E792B20CB0400922DC5 /* AppDelegate.swift in Sources */,
+				915ED47A2B24A18300C5505C /* AlertDate.swift in Sources */,
 				915B1AF02B22574200980B83 /* ScheduleCellViewModel.swift in Sources */,
 				91526E8E2B20E23D00922DC5 /* FromViewController.swift in Sources */,
 				91526E7B2B20CB0400922DC5 /* SceneDelegate.swift in Sources */,

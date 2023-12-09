@@ -13,9 +13,15 @@ class ViewController: UIViewController {
     var toPointKey = ""
     var FromlabelText = "From"
     var TolabelText = "To"
+    var transportType = ""
+    var tripDate = ""
+    let currentDate = Date()
+    
     private var FindButton = UIButton()
     private var Fromlabel = UILabel()
     private var Tolabel = UILabel()
+    private var transportSegmentedControll = UISegmentedControl()
+    private var dateSegmentedControll = UISegmentedControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +29,7 @@ class ViewController: UIViewController {
         
         createUI()
         createButton()
+        createSegmented()
         
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -31,7 +38,49 @@ class ViewController: UIViewController {
         print("from KEY = \(fromPointKey)")
         print("to = \(TolabelText)")
         print("to KEY = \(toPointKey)")
+        print("trip date = \(tripDate)")
         createUI()
+        
+    }
+    
+    func createSegmented() {
+        transportSegmentedControll = UISegmentedControl(items: ["любой", "2", "3", "4", "5"])
+        transportSegmentedControll.frame = CGRect(x: 50, y: 600, width: 300, height: 40)
+        transportSegmentedControll.selectedSegmentIndex = 0
+        transportSegmentedControll.setImage(UIImage(systemName: "airplane"), forSegmentAt: 1)
+        transportSegmentedControll.setImage(UIImage(systemName: "train.side.front.car"), forSegmentAt: 2)
+        transportSegmentedControll.setImage(UIImage(systemName: "tram.fill"), forSegmentAt: 3)
+        transportSegmentedControll.setImage(UIImage(systemName: "bus.fill"), forSegmentAt: 4)
+        view.addSubview(transportSegmentedControll)
+        
+        dateSegmentedControll = UISegmentedControl(items: ["Сегодня", "Завтра", "Дата"])
+        dateSegmentedControll.frame = CGRect(x: 50, y: 540, width: 300, height: 40)
+        dateSegmentedControll.selectedSegmentIndex = 0
+        dateSegmentedControll.addTarget(self, action: #selector(dateSegmentedValueChange), for: .valueChanged)
+        view.addSubview(dateSegmentedControll)
+    }
+    
+    @objc func dateSegmentedValueChange() {
+        switch dateSegmentedControll.selectedSegmentIndex {
+        case 0: print("дата = сегодня")
+            tripDate = currentDate.ISO8601Format()
+            print("switch сегодна = \(tripDate)")
+        case 1: print("дата = завтра")
+            let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)
+            tripDate = tomorrowDate!.ISO8601Format()
+            print("switch завтра = \(tripDate)")
+        case 2: print("дата = дата")
+            print("case 2")
+            alerDate { date in
+                print("результат дата = \(date)")
+                self.tripDate = date.ISO8601Format()
+                print("кастомная дата = \(self.tripDate)")
+//                self.dateSegmentedControll.setTitle("55", forSegmentAt: 2)
+            }
+           print("case 2-2")
+        default:
+            print("дата = дефолт")
+        }
     }
     
     func createUI(){
@@ -67,11 +116,27 @@ class ViewController: UIViewController {
     }
     
     @objc func FindButtonPressed() {
+        
+        switch transportSegmentedControll.selectedSegmentIndex {
+        case 0: transportType = ""
+        case 1: transportType = "plane"
+        case 2: transportType = "train"
+        case 3: transportType = "suburban"
+        case 4: transportType = "bus"
+        default:
+            print("ff")
+        }
+        
+        print("transportType = \(transportType)")
+        print("final date = \(tripDate)")
+        
         let ScheduleVC = ScheduleViewController()
         ScheduleVC.fromTitle = FromlabelText
         ScheduleVC.toTitle = TolabelText
         ScheduleVC.fromPointKey = fromPointKey
         ScheduleVC.toPointKey = toPointKey
+        ScheduleVC.transportTypeTitle = transportType
+        ScheduleVC.tripDate = tripDate
         navigationController?.pushViewController(ScheduleVC, animated: true)
     }
     
