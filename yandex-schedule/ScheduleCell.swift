@@ -70,8 +70,6 @@ class ScheduleCell: UITableViewCell {
         fromToStackView = UIStackView(arrangedSubviews: [FromLabel, ToLabel, carrierNameLabel, threadNumber, vehicleLabel])
         fromToStackView.axis = .vertical
         fromToStackView.spacing = 2
-//        fromToStackView.backgroundColor = .blue
-//        fromToStackView.alpha = 0.5
         fromToStackView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(fromToStackView)
@@ -90,8 +88,6 @@ class ScheduleCell: UITableViewCell {
         departureStackView = UIStackView(arrangedSubviews: [departureDayLabel, departureTimeLabel, departureTitle])
         departureStackView.axis = .vertical
         departureStackView.spacing = 2
-//        departureStackView.backgroundColor = .green
-//        departureStackView.alpha = 0.5
         departureStackView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(departureStackView)
@@ -113,19 +109,14 @@ class ScheduleCell: UITableViewCell {
         arrivalStackView = UIStackView(arrangedSubviews: [arrivalDayLabel, arrivalTimeLabel, arrivalTitle])
         arrivalStackView.axis = .vertical
         arrivalStackView.spacing = 2
-//        arrivalStackView.backgroundColor = .red
-//        arrivalStackView.alpha = 0.5
         arrivalStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(arrivalStackView)
         
         durationLabel.font = .systemFont(ofSize: 12)
         durationLabel.textColor = .darkGray
         durationLabel.numberOfLines = 0
-//        durationLabel.backgroundColor = .yellow
-//        durationLabel.alpha = 0.5
         durationLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(durationLabel)
-        
         
         NSLayoutConstraint.activate([
             arrivalStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
@@ -167,13 +158,6 @@ class ScheduleCell: UITableViewCell {
         
         durationLabel.text = viewModel.durationText
         
-//        print("transport = \(viewModel.transportType)")
-//        switch viewModel.transportType {
-//        case plane: transportTypeImageView.backgroundColor = .brown
-//        case train: transportTypeImageView.backgroundColor = .purple
-//        }
-        
-        print("transport = \(viewModel.transportType)")
         switch viewModel.transportType {
         case "plane": transportTypeImageView.image = UIImage(systemName: "airplane")
             transportTypeImageView.tintColor = .systemBlue
@@ -184,12 +168,10 @@ class ScheduleCell: UITableViewCell {
         case "bus": transportTypeImageView.image = UIImage(systemName: "bus.fill")
             transportTypeImageView.tintColor = .orange
         default:
-            print("сработал дефолт")
+            print("default switch transport type in cell")
         }
         
         threadNumber.text = viewModel.threadNumber
     }
-    
-    
 }
 

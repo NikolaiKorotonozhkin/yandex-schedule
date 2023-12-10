@@ -8,8 +8,8 @@
 import UIKit
 
 class ToViewController: UIViewController {
-    var buttonTest = UIButton()
-    var station = [Item]()
+    
+    private var station = [Item]()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -55,7 +55,6 @@ class ToViewController: UIViewController {
     }
     
     private func fetchStation(StationName: String) {
-        
         let urlString = "https://suggests.rasp.yandex.net/all_suggests?format=new&part=\(StationName)"
         
         NetworkDataFetch.shared.fetchStations(urlString: urlString) { station, error in
@@ -66,7 +65,6 @@ class ToViewController: UIViewController {
                     self.station = station.items
                     self.tableView.reloadData()
                 } else {
-//                    self.alertOk(title: "Error", message: "Stations not found. Add some words")
                     print("Station not found. Add some words")
                 }
                 
@@ -83,7 +81,6 @@ class ToViewController: UIViewController {
 extension ToViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         station.count
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,7 +93,6 @@ extension ToViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 
 extension ToViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mainVC = self.navigationController?.viewControllers[0] as? ViewController
         mainVC?.TolabelText = station[indexPath.row].title
@@ -110,9 +106,7 @@ extension ToViewController: UITableViewDelegate {
 
 extension ToViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
         let text = searchText.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-        print(text!)
         self.fetchStation(StationName: text!)
     }
 }
@@ -120,9 +114,7 @@ extension ToViewController: UISearchBarDelegate {
 //MARK: - SetConstraints
 
 extension ToViewController {
-
     private func setConstraints() {
-
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),

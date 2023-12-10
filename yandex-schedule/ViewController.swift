@@ -22,6 +22,8 @@ class ViewController: UIViewController {
     private var Tolabel = UILabel()
     private var transportSegmentedControll = UISegmentedControl()
     private var dateSegmentedControll = UISegmentedControl()
+    private var reverseButton = UIButton()
+    private var logoImageView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,24 +32,31 @@ class ViewController: UIViewController {
         createUI()
         tripDate = currentDate.ISO8601Format()
         createConstraints()
-        
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("from = \(FromlabelText)")
-        print("from KEY = \(fromPointKey)")
-        print("to = \(TolabelText)")
-        print("to KEY = \(toPointKey)")
-        print("trip date = \(tripDate)")
-        updateLabels()
     }
     
-    func updateLabels() {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        updateLabels()
+        isButtonVisible()
+    }
+    
+    private func updateLabels() {
         Fromlabel.text = FromlabelText
         Tolabel.text = TolabelText
     }
     
-    func createUI(){
+    private func isButtonVisible() {
+        if ((fromPointKey == "") || (toPointKey == "")) {
+            FindButton.alpha = 0.5
+            FindButton.isUserInteractionEnabled = false
+        } else {
+            FindButton.alpha = 1
+            FindButton.isUserInteractionEnabled = true
+        }
+    }
+    
+    private func createUI(){
         navigationController?.navigationBar.prefersLargeTitles = true
         
         Fromlabel.text = FromlabelText
@@ -96,42 +105,60 @@ class ViewController: UIViewController {
         FindButton.addTarget(self, action: #selector(FindButtonPressed), for: .touchUpInside)
         FindButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(FindButton)
+        
+        reverseButton.backgroundColor = .clear
+        reverseButton.translatesAutoresizingMaskIntoConstraints = false
+        reverseButton.setImage(UIImage(systemName: "arrow.up.arrow.down"), for: .normal)
+        reverseButton.tintColor = .black
+        reverseButton.addTarget(self, action: #selector(reverseButtonPressed), for: .touchUpInside)
+        view.addSubview(reverseButton)
+        
+        logoImageView.image = UIImage(named: "yandexLogo")
+        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(logoImageView)
     }
     
 //MARK: - Selectors
-    @objc func dateSegmentedValueChange() {
+    @objc private func dateSegmentedValueChange() {
         switch dateSegmentedControll.selectedSegmentIndex {
-        case 0: print("дата = сегодня")
+        case 0:
             tripDate = currentDate.ISO8601Format()
-            print("switch сегодна = \(tripDate)")
-        case 1: print("дата = завтра")
+        case 1:
             let tomorrowDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)
             tripDate = tomorrowDate!.ISO8601Format()
-            print("switch завтра = \(tripDate)")
-        case 2: print("дата = дата")
-            print("case 2")
+        case 2:
             alerDate { date in
-                print("результат дата = \(date)")
                 self.tripDate = date.ISO8601Format()
-                print("кастомная дата = \(self.tripDate)")
             }
-           print("case 2-2")
         default:
-            print("дата = дефолт")
+            print("default switch Date")
         }
     }
     
-    @objc func FromlabelPressed() {
+    @objc private func FromlabelPressed() {
         let FromVC = FromViewController()
         navigationController?.pushViewController(FromVC, animated: true)
     }
     
-    @objc func TolabelPressed() {
+    @objc private func TolabelPressed() {
         let ToVC = ToViewController()
         navigationController?.pushViewController(ToVC, animated: true)
     }
     
-    @objc func FindButtonPressed() {
+    @objc private func reverseButtonPressed() {
+        let fromStationKey = fromPointKey
+        fromPointKey = toPointKey
+        toPointKey = fromStationKey
+        
+        let fromStation = FromlabelText
+        FromlabelText = TolabelText
+        TolabelText = fromStation
+        
+        updateLabels()
+    }
+    
+    @objc private func FindButtonPressed() {
         switch transportSegmentedControll.selectedSegmentIndex {
         case 0: transportType = ""
         case 1: transportType = "plane"
@@ -139,11 +166,8 @@ class ViewController: UIViewController {
         case 3: transportType = "suburban"
         case 4: transportType = "bus"
         default:
-            print("ff")
+            print("default switch transport type")
         }
-        
-        print("transportType = \(transportType)")
-        print("final date = \(tripDate)")
         
         let ScheduleVC = ScheduleViewController()
         ScheduleVC.fromTitle = FromlabelText
@@ -162,12 +186,12 @@ extension ViewController {
         NSLayoutConstraint.activate([
             Fromlabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 2.3),
             Fromlabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            Fromlabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            Fromlabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
             Fromlabel.heightAnchor.constraint(equalToConstant: 50),
             
             Tolabel.topAnchor.constraint(equalTo: Fromlabel.bottomAnchor, constant: 10),
             Tolabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            Tolabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            Tolabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100),
             Tolabel.heightAnchor.constraint(equalToConstant: 50),
             
             dateSegmentedControll.topAnchor.constraint(equalTo: Tolabel.bottomAnchor, constant: 15),
@@ -183,7 +207,17 @@ extension ViewController {
             FindButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             FindButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             FindButton.heightAnchor.constraint(equalToConstant: 50),
-            FindButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -70)
+            FindButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -70),
+            
+            reverseButton.centerYAnchor.constraint(equalTo: Fromlabel.bottomAnchor, constant: 5),
+            reverseButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            reverseButton.heightAnchor.constraint(equalToConstant: 40),
+            reverseButton.widthAnchor.constraint(equalToConstant: 40),
+            
+            logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 4),
+            logoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            logoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            logoImageView.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
 }

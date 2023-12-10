@@ -11,8 +11,6 @@ extension UIViewController {
     
     func alerDate(completionHandler: @escaping (Date) -> Void) {
         
-        var localDate = Date()
-        
         let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
         
         let datePicker = UIDatePicker()
@@ -24,16 +22,6 @@ extension UIViewController {
         alert.view.addSubview(datePicker)
         
         let ok = UIAlertAction(title: "ok", style: .default) { (action) in
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd.MM.yyyy"
-            
-            let calendar = Calendar.current
-            let component = calendar.dateComponents([.weekday], from: datePicker.date)
-            guard let weekday = component.weekday else {return}
-            
-            print("selected date = \(datePicker.date)")
-            localDate = datePicker.date
             completionHandler(datePicker.date)
         }
         
@@ -46,6 +34,7 @@ extension UIViewController {
             datePicker.heightAnchor.constraint(equalTo: alert.view.widthAnchor),
             datePicker.topAnchor.constraint(equalTo: alert.view.topAnchor, constant: 20)
         ])
+        
         print("selected date2 = \(datePicker.date)")
         present(alert, animated: true)
     }

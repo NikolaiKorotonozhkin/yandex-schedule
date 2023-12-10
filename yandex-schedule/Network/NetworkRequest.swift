@@ -23,7 +23,6 @@ class NetworkRequest {
                     return
                 }
                 guard let data = data else { return }
-                print(data)
                 completion(.success(data))
             }
         }

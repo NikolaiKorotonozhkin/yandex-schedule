@@ -16,7 +16,8 @@ class ScheduleViewController: UIViewController {
     var transportTypeTitle = ""
     var tripDate = "2023-12-08T01:00:00+03:00"
     
-    var localSchedule = [Segment]()
+    private var localSchedule = [Segment]()
+    private var activityIndicator = UIActivityIndicatorView()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -28,56 +29,49 @@ class ScheduleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationItem.title = "Расписание"
+        
         view.addSubview(tableView)
         setConstraints()
         
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.allowsSelection = false
         
         let url = createURL(fromPointKey, toPointKey, transportTypeTitle, tripDate)
         let urlStr = url.absoluteString
-        print(urlStr)
         fetchSchedule(urlStr)
-        
+        createActivityIndicator()
     }
     
-    func createURL(_ fromPointKey: String, _ toPointKey: String, _ transport: String, _ date: String) -> URL {
+    private func createURL(_ fromPointKey: String, _ toPointKey: String, _ transport: String, _ date: String) -> URL {
         var urlComponents = URLComponents(string: "https://api.rasp.yandex.net/v3.0/search/")!
         
         let apiKey = URLQueryItem(name: "apikey", value: NetworkConstants.ApiKey.rawValue)
-//        let form = URLQueryItem(name: "format", value: "json")
         let from = URLQueryItem(name: "from", value: fromPointKey)
         let to = URLQueryItem(name: "to", value: toPointKey)
         let transportTypes = URLQueryItem(name: "transport_types", value: transport)
         let dateValue = URLQueryItem(name: "date", value: date)
-        let limit = URLQueryItem(name: "limit", value: "50")
+//        let limit = URLQueryItem(name: "limit", value: "50")
         
-        urlComponents.queryItems = [apiKey, from, to, transportTypes, dateValue, limit]
-        
+        urlComponents.queryItems = [apiKey, from, to, transportTypes, dateValue]
         return urlComponents.url!
     }
     
     private func fetchSchedule(_ urlString: String) {
-//        let urlString = "https://api.rasp.yandex.net/v3.0/search/?apikey=bca89ae3-7648-4682-a0dd-e8dfc5d8cef8&format=json&from=c213&to=c2&lang=ru_RU&date=2023-12-07&limit=8"
-        
         NetworkDataFetch.shared.fetchScheduleBetweenStations(urlString: urlString) { schedule, error in
             if error == nil {
                 guard let schedule = schedule else { return }
-                
-//                if schedule.segments != [] {
-//                    self.localSchedule = schedule.segments
-//                    print(self.localSchedule)
-//                    self.tableView.reloadData()
-//                } else {
-//                    print("schedule not found.")
-//                }
-                
                 if schedule.segments != nil {
                     self.localSchedule = schedule.segments!
-                    print(self.localSchedule)
+                    
+                    if self.localSchedule.count <= 0 {
+                        self.showErrorAlert()
+                    }
+                    
                     self.tableView.reloadData()
+                    self.activityIndicator.isHidden = true
+                    self.activityIndicator.stopAnimating()
                 } else {
                     print("schedule not found.")
                 }
@@ -85,6 +79,23 @@ class ScheduleViewController: UIViewController {
                 print(error!.localizedDescription)
             }
         }
+    }
+    
+    private func createActivityIndicator() {
+        activityIndicator.center = view.center
+        activityIndicator.style = .large
+        activityIndicator.color = UIColor(red: 255/255, green: 204/255, blue: 0/255, alpha: 1)
+        view.addSubview(activityIndicator)
+        
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    
+    private func showErrorAlert() {
+        let alert = UIAlertController(title: "Ошиюка", message: "Веберите другой тип транспорта или пункт назначения", preferredStyle: .alert)
+        let action = UIAlertAction(title: "ok", style: .cancel)
+        alert.addAction(action)
+        self.present(alert, animated: true)
     }
 }
 
@@ -102,7 +113,6 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         }
         let scheduleCellViewModel = ScheduleCellViewModel(fromTitle: fromTitle, toTitle: toTitle, localSchedule[indexPath.row])
         cell.setupCell(viewModel: scheduleCellViewModel)
-//        cell.textLabel?.text = localSchedule[indexPath.row].from?.title
         return cell
     }
     
@@ -111,10 +121,10 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+//MARK: - SetConstraints
+
 extension ScheduleViewController {
-
     private func setConstraints() {
-
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),

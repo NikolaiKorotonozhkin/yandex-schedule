@@ -9,8 +9,7 @@ import UIKit
 
 class FromViewController: UIViewController {
     
-    var buttonTest = UIButton()
-    var station = [Item]()
+    private var station = [Item]()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -58,7 +57,6 @@ class FromViewController: UIViewController {
     }
     
     private func fetchStation(StationName: String) {
-        
         let urlString = "https://suggests.rasp.yandex.net/all_suggests?format=new&part=\(StationName)"
         
         NetworkDataFetch.shared.fetchStations(urlString: urlString) { station, error in
@@ -69,7 +67,6 @@ class FromViewController: UIViewController {
                     self.station = station.items
                     self.tableView.reloadData()
                 } else {
-//                    self.alertOk(title: "Error", message: "Stations not found. Add some words")
                     print("Station not found. Add some words")
                 }
                 
@@ -77,7 +74,6 @@ class FromViewController: UIViewController {
                 print(error!.localizedDescription)
             }
         }
-        
     }
 }
 
@@ -100,7 +96,6 @@ extension FromViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 
 extension FromViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let mainVC = self.navigationController?.viewControllers[0] as? ViewController
         mainVC?.FromlabelText = station[indexPath.row].title
@@ -114,9 +109,7 @@ extension FromViewController: UITableViewDelegate {
 
 extension FromViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
         let text = searchText.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-        print(text!)
         self.fetchStation(StationName: text!)
     }
 }
@@ -124,9 +117,7 @@ extension FromViewController: UISearchBarDelegate {
 //MARK: - SetConstraints
 
 extension FromViewController {
-
     private func setConstraints() {
-
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),

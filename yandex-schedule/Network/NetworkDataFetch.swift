@@ -39,7 +39,6 @@ class NetworkDataFetch {
             case .success(let data):
                 do {
                     let schedule = try JSONDecoder().decode(ScheduleBetweenStations.self, from: data)
-                    print("size = \(data)")
                     response(schedule, nil)
                 } catch let jsonError {
                     print("Failed to decode JSON Schedule", jsonError)
