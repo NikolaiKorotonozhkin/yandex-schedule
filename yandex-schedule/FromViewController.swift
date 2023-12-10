@@ -47,11 +47,14 @@ class FromViewController: UIViewController {
     private func setNavigationBar() {
         navigationItem.title = "Откуда"
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
     }
     
     private func setupSearchController() {
         searchController.searchBar.placeholder = "Откуда"
         searchController.obscuresBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
     }
     
     private func fetchStation(StationName: String) {

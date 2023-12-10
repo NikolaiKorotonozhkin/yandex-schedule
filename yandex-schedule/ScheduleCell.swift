@@ -45,101 +45,109 @@ class ScheduleCell: UITableViewCell {
     }
     
     private func setupView() {
-        transportTypeImageView.backgroundColor = .red
         transportTypeImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        FromLabel.font = .systemFont(ofSize: 16)
+        FromLabel.font = .boldSystemFont(ofSize: 14)
+        FromLabel.textAlignment = .left
         FromLabel.textColor = .black
         
-        ToLabel.font = .systemFont(ofSize: 16)
+        ToLabel.font = .boldSystemFont(ofSize: 14)
+        ToLabel.textAlignment = .left
         ToLabel.textColor = .black
         
-        carrierNameLabel.font = .systemFont(ofSize: 14)
+        carrierNameLabel.font = .systemFont(ofSize: 12)
+        carrierNameLabel.textAlignment = .left
         carrierNameLabel.textColor = .darkGray
         
-        threadNumber.font = .systemFont(ofSize: 14)
+        threadNumber.font = .systemFont(ofSize: 12)
+        threadNumber.textAlignment = .left
         threadNumber.textColor = .darkGray
         
-        vehicleLabel.font = .systemFont(ofSize: 14)
+        vehicleLabel.font = .systemFont(ofSize: 12)
+        vehicleLabel.textAlignment = .left
         vehicleLabel.textColor = .darkGray
         
         fromToStackView = UIStackView(arrangedSubviews: [FromLabel, ToLabel, carrierNameLabel, threadNumber, vehicleLabel])
         fromToStackView.axis = .vertical
         fromToStackView.spacing = 2
-        fromToStackView.backgroundColor = .blue
-        fromToStackView.alpha = 0.5
+//        fromToStackView.backgroundColor = .blue
+//        fromToStackView.alpha = 0.5
         fromToStackView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(fromToStackView)
         addSubview(transportTypeImageView)
         
-        departureDayLabel.font = .systemFont(ofSize: 14)
+        departureDayLabel.font = .systemFont(ofSize: 12)
         departureDayLabel.textColor = .darkGray
         
-        departureTimeLabel.font = .boldSystemFont(ofSize: 16)
+        departureTimeLabel.font = .boldSystemFont(ofSize: 14)
         departureTimeLabel.textColor = .black
         
-        departureTitle.font = .systemFont(ofSize: 14)
+        departureTitle.font = .systemFont(ofSize: 12)
         departureTitle.textColor = .darkGray
         departureTitle.numberOfLines = 0
-//        departureTitle.lineBreakMode = .byWordWrapping
         
         departureStackView = UIStackView(arrangedSubviews: [departureDayLabel, departureTimeLabel, departureTitle])
         departureStackView.axis = .vertical
         departureStackView.spacing = 2
-        departureStackView.backgroundColor = .green
-        departureStackView.alpha = 0.5
+//        departureStackView.backgroundColor = .green
+//        departureStackView.alpha = 0.5
         departureStackView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(departureStackView)
         
-        arrivalDayLabel.font = .systemFont(ofSize: 14)
+        arrivalDayLabel.font = .systemFont(ofSize: 12)
+        arrivalDayLabel.textAlignment = .right
         arrivalDayLabel.textColor = .darkGray
         
-        arrivalTimeLabel.font = .boldSystemFont(ofSize: 16)
+        arrivalTimeLabel.font = .boldSystemFont(ofSize: 14)
+        arrivalTimeLabel.textAlignment = .right
         arrivalTimeLabel.textColor = .black
         
-        arrivalTitle.font = .systemFont(ofSize: 14)
+        arrivalTitle.font = .systemFont(ofSize: 12)
+        arrivalTitle.textAlignment = .right
+        arrivalTitle.numberOfLines = 0
         arrivalTitle.textColor = .darkGray
         arrivalTitle.numberOfLines = 0
         
         arrivalStackView = UIStackView(arrangedSubviews: [arrivalDayLabel, arrivalTimeLabel, arrivalTitle])
         arrivalStackView.axis = .vertical
         arrivalStackView.spacing = 2
-        arrivalStackView.backgroundColor = .red
-        arrivalStackView.alpha = 0.5
+//        arrivalStackView.backgroundColor = .red
+//        arrivalStackView.alpha = 0.5
         arrivalStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(arrivalStackView)
         
-        durationLabel.font = .systemFont(ofSize: 16)
+        durationLabel.font = .systemFont(ofSize: 12)
         durationLabel.textColor = .darkGray
         durationLabel.numberOfLines = 0
-        durationLabel.backgroundColor = .yellow
-        durationLabel.alpha = 0.5
+//        durationLabel.backgroundColor = .yellow
+//        durationLabel.alpha = 0.5
         durationLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(durationLabel)
         
         
         NSLayoutConstraint.activate([
-            fromToStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            fromToStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
+            arrivalStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            arrivalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            arrivalStackView.widthAnchor.constraint(equalToConstant: 90),
+            
+            durationLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            durationLabel.trailingAnchor.constraint(equalTo: arrivalStackView.leadingAnchor, constant: -5),
+            durationLabel.widthAnchor.constraint(equalToConstant: 24),
+            
+            departureStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            departureStackView.trailingAnchor.constraint(equalTo: durationLabel.leadingAnchor, constant: -5),
+            departureStackView.widthAnchor.constraint(equalToConstant: 90),
             
             transportTypeImageView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             transportTypeImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
             transportTypeImageView.heightAnchor.constraint(equalToConstant: 20),
             transportTypeImageView.widthAnchor.constraint(equalToConstant: 20),
             
-            departureStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            departureStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 130),
-            departureStackView.widthAnchor.constraint(equalToConstant: 100),
-            
-            arrivalStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            arrivalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
-            arrivalStackView.widthAnchor.constraint(equalToConstant: 100),
-            
-            durationLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            durationLabel.leadingAnchor.constraint(equalTo: departureStackView.trailingAnchor, constant: 20),
-            durationLabel.widthAnchor.constraint(equalToConstant: 40)
+            fromToStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            fromToStackView.leadingAnchor.constraint(equalTo: transportTypeImageView.trailingAnchor, constant: 5),
+            fromToStackView.widthAnchor.constraint(equalToConstant: 140)
         ])
     }
     
@@ -168,9 +176,13 @@ class ScheduleCell: UITableViewCell {
         print("transport = \(viewModel.transportType)")
         switch viewModel.transportType {
         case "plane": transportTypeImageView.image = UIImage(systemName: "airplane")
+            transportTypeImageView.tintColor = .systemBlue
         case "train": transportTypeImageView.image = UIImage(systemName: "train.side.front.car")
+            transportTypeImageView.tintColor = .red
         case "suburban": transportTypeImageView.image = UIImage(systemName: "tram.fill")
+            transportTypeImageView.tintColor = .systemGreen
         case "bus": transportTypeImageView.image = UIImage(systemName: "bus.fill")
+            transportTypeImageView.tintColor = .orange
         default:
             print("сработал дефолт")
         }

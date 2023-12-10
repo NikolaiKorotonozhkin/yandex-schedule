@@ -20,7 +20,7 @@ class ScheduleViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .green
+        tableView.backgroundColor = .white
         tableView.register(ScheduleCell.self, forCellReuseIdentifier: ScheduleCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -29,7 +29,7 @@ class ScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .purple
+        navigationItem.title = "Расписание"
         view.addSubview(tableView)
         setConstraints()
         
@@ -52,7 +52,7 @@ class ScheduleViewController: UIViewController {
         let to = URLQueryItem(name: "to", value: toPointKey)
         let transportTypes = URLQueryItem(name: "transport_types", value: transport)
         let dateValue = URLQueryItem(name: "date", value: date)
-        let limit = URLQueryItem(name: "limit", value: "10")
+        let limit = URLQueryItem(name: "limit", value: "50")
         
         urlComponents.queryItems = [apiKey, from, to, transportTypes, dateValue, limit]
         

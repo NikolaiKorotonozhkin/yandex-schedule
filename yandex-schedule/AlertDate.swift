@@ -18,6 +18,7 @@ extension UIViewController {
         let datePicker = UIDatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.datePickerMode = .date
+        datePicker.tintColor = UIColor(red: 255/255, green: 204/255, blue: 0/255, alpha: 1)
         datePicker.preferredDatePickerStyle = .inline
         
         alert.view.addSubview(datePicker)
@@ -26,13 +27,10 @@ extension UIViewController {
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd.MM.yyyy"
-            let dateString = dateFormatter.string(from: datePicker.date)
             
             let calendar = Calendar.current
             let component = calendar.dateComponents([.weekday], from: datePicker.date)
             guard let weekday = component.weekday else {return}
-            let numberWeekdat = weekday
-            let date = datePicker.date as NSDate
             
             print("selected date = \(datePicker.date)")
             localDate = datePicker.date

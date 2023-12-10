@@ -11,11 +11,11 @@ class ViewController: UIViewController {
     
     var fromPointKey = ""
     var toPointKey = ""
-    var FromlabelText = "From"
-    var TolabelText = "To"
+    var FromlabelText = "Откуда"
+    var TolabelText = "Куда"
     var transportType = ""
-    var tripDate = ""
     let currentDate = Date()
+    var tripDate = ""
     
     private var FindButton = UIButton()
     private var Fromlabel = UILabel()
@@ -28,8 +28,8 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         
         createUI()
-        createButton()
-        createSegmented()
+        tripDate = currentDate.ISO8601Format()
+        createConstraints()
         
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -39,27 +39,66 @@ class ViewController: UIViewController {
         print("to = \(TolabelText)")
         print("to KEY = \(toPointKey)")
         print("trip date = \(tripDate)")
-        createUI()
-        
+        updateLabels()
     }
     
-    func createSegmented() {
+    func updateLabels() {
+        Fromlabel.text = FromlabelText
+        Tolabel.text = TolabelText
+    }
+    
+    func createUI(){
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        Fromlabel.text = FromlabelText
+        Fromlabel.backgroundColor = .systemGray5
+        Fromlabel.layer.cornerRadius = 5
+        Fromlabel.clipsToBounds = true
+        Fromlabel.textColor = .black
+        Fromlabel.font = Fromlabel.font.withSize(20)
+        Fromlabel.isUserInteractionEnabled = true
+        Fromlabel.translatesAutoresizingMaskIntoConstraints = false
+        let guestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(FromlabelPressed))
+        Fromlabel.addGestureRecognizer(guestureRecognizer)
+        view.addSubview(Fromlabel)
+        
+        Tolabel.text = TolabelText
+        Tolabel.backgroundColor = .systemGray5
+        Tolabel.layer.cornerRadius = 5
+        Tolabel.clipsToBounds = true
+        Tolabel.textColor = .black
+        Tolabel.font = Fromlabel.font.withSize(20)
+        Tolabel.translatesAutoresizingMaskIntoConstraints = false
+        Tolabel.isUserInteractionEnabled = true
+        let guestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(TolabelPressed))
+        Tolabel.addGestureRecognizer(guestureRecognizer2)
+        view.addSubview(Tolabel)
+        
         transportSegmentedControll = UISegmentedControl(items: ["любой", "2", "3", "4", "5"])
-        transportSegmentedControll.frame = CGRect(x: 50, y: 600, width: 300, height: 40)
         transportSegmentedControll.selectedSegmentIndex = 0
         transportSegmentedControll.setImage(UIImage(systemName: "airplane"), forSegmentAt: 1)
         transportSegmentedControll.setImage(UIImage(systemName: "train.side.front.car"), forSegmentAt: 2)
         transportSegmentedControll.setImage(UIImage(systemName: "tram.fill"), forSegmentAt: 3)
         transportSegmentedControll.setImage(UIImage(systemName: "bus.fill"), forSegmentAt: 4)
+        transportSegmentedControll.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(transportSegmentedControll)
         
         dateSegmentedControll = UISegmentedControl(items: ["Сегодня", "Завтра", "Дата"])
-        dateSegmentedControll.frame = CGRect(x: 50, y: 540, width: 300, height: 40)
         dateSegmentedControll.selectedSegmentIndex = 0
         dateSegmentedControll.addTarget(self, action: #selector(dateSegmentedValueChange), for: .valueChanged)
+        dateSegmentedControll.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dateSegmentedControll)
+        
+        FindButton.backgroundColor = UIColor(red: 255/255, green: 204/255, blue: 0/255, alpha: 1)
+        FindButton.setTitle("Найти", for: .normal)
+        FindButton.setTitleColor(.black, for: .normal)
+        FindButton.layer.cornerRadius = 5
+        FindButton.addTarget(self, action: #selector(FindButtonPressed), for: .touchUpInside)
+        FindButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(FindButton)
     }
     
+//MARK: - Selectors
     @objc func dateSegmentedValueChange() {
         switch dateSegmentedControll.selectedSegmentIndex {
         case 0: print("дата = сегодня")
@@ -75,7 +114,6 @@ class ViewController: UIViewController {
                 print("результат дата = \(date)")
                 self.tripDate = date.ISO8601Format()
                 print("кастомная дата = \(self.tripDate)")
-//                self.dateSegmentedControll.setTitle("55", forSegmentAt: 2)
             }
            print("case 2-2")
         default:
@@ -83,40 +121,17 @@ class ViewController: UIViewController {
         }
     }
     
-    func createUI(){
-        Fromlabel.text = FromlabelText
-        Fromlabel.backgroundColor = .lightGray
-        Fromlabel.textColor = .green
-        Fromlabel.frame = CGRect(x: 0, y: 0, width: 300, height: 40)
-        Fromlabel.center = view.center
-        Fromlabel.isUserInteractionEnabled = true
-        let guestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(FromlabelPressed))
-        Fromlabel.addGestureRecognizer(guestureRecognizer)
-        view.addSubview(Fromlabel)
-        
-        Tolabel.text = TolabelText
-        Tolabel.backgroundColor = .lightGray
-        Tolabel.textColor = .green
-        Tolabel.frame = CGRect(x: 0, y: 450, width: 300, height: 40)
-        Tolabel.center.x = view.center.x
-        Tolabel.isUserInteractionEnabled = true
-        let guestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(TolabelPressed))
-        Tolabel.addGestureRecognizer(guestureRecognizer2)
-        view.addSubview(Tolabel)
+    @objc func FromlabelPressed() {
+        let FromVC = FromViewController()
+        navigationController?.pushViewController(FromVC, animated: true)
     }
     
-    func createButton() {
-        FindButton.frame = CGRect(x: 0, y: 700, width: 300, height: 40)
-        FindButton.center.x = view.center.x
-        FindButton.backgroundColor = .yellow
-        FindButton.setTitle("Найти", for: .normal)
-        FindButton.setTitleColor(.black, for: .normal)
-        FindButton.addTarget(self, action: #selector(FindButtonPressed), for: .touchUpInside)
-        view.addSubview(FindButton)
+    @objc func TolabelPressed() {
+        let ToVC = ToViewController()
+        navigationController?.pushViewController(ToVC, animated: true)
     }
     
     @objc func FindButtonPressed() {
-        
         switch transportSegmentedControll.selectedSegmentIndex {
         case 0: transportType = ""
         case 1: transportType = "plane"
@@ -139,18 +154,36 @@ class ViewController: UIViewController {
         ScheduleVC.tripDate = tripDate
         navigationController?.pushViewController(ScheduleVC, animated: true)
     }
-    
-    
-    @objc func FromlabelPressed() {
-        let FromVC = FromViewController()
-//        present(secondVC, animated: true)
-        navigationController?.pushViewController(FromVC, animated: true)
-    }
-    
-    @objc func TolabelPressed() {
-        let ToVC = ToViewController()
-//        present(secondVC, animated: true)
-        navigationController?.pushViewController(ToVC, animated: true)
-    }
 }
 
+//MARK: - Set constraints
+extension ViewController {
+    func createConstraints() {
+        NSLayoutConstraint.activate([
+            Fromlabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 2.3),
+            Fromlabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            Fromlabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            Fromlabel.heightAnchor.constraint(equalToConstant: 50),
+            
+            Tolabel.topAnchor.constraint(equalTo: Fromlabel.bottomAnchor, constant: 10),
+            Tolabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            Tolabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            Tolabel.heightAnchor.constraint(equalToConstant: 50),
+            
+            dateSegmentedControll.topAnchor.constraint(equalTo: Tolabel.bottomAnchor, constant: 15),
+            dateSegmentedControll.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            dateSegmentedControll.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            dateSegmentedControll.heightAnchor.constraint(equalToConstant: 50),
+            
+            transportSegmentedControll.topAnchor.constraint(equalTo: dateSegmentedControll.bottomAnchor, constant: 15),
+            transportSegmentedControll.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            transportSegmentedControll.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            transportSegmentedControll.heightAnchor.constraint(equalToConstant: 50),
+            
+            FindButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            FindButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            FindButton.heightAnchor.constraint(equalToConstant: 50),
+            FindButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -70)
+        ])
+    }
+}
